@@ -1,5 +1,6 @@
 #intellij
 .idea
+Poro-Client-Updater.iml
 
 #build
 /out/
@@ -11,3 +12,4 @@
 /node_modules
 /package-lock.json
 package.json
+/doc

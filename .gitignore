@@ -1,0 +1,13 @@
+#intellij
+.idea
+
+#build
+/out/
+/target/
+
+#unused
+/src/test/
+
+/node_modules
+/package-lock.json
+package.json

@@ -1,19 +1,13 @@
 # Poro-Client
+## Project Overview
+- 📍[Backend](https://github.com/Julianw03/application-poro-client)
+- [Frontend](https://github.com/Julianw03/application-poro-client-frontend)
+- [Build Scripts](https://github.com/Julianw03/application-poro-client-build)
 
 ## Disclaimer
 ***Poro-Client** isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.*
-
-This is side project that I am working on. This is basically a Proxy Server between the League client and the frontend which
-aims to reduce load from the LCU and implement additional functionality.
-This allows local websites to access the client's data and perform actions on the client.
-
-# DISCLAIMER
-THIS IS A PROJECT ONLY PUBLICLY AVAILABLE DURING MY APPLICATION TO RIOT GAMES. 
-IT IS NOT INTENDED TO BE A PUBLICLY AVAILABLE PRODUCT AND IS JUST FOR ME TO IMPROVE MY SKILLS.
-
-## Frontend
-
-The frontend code can be found in the GitHub repository [here](https://github.com/IAmBadAtPlaying/poro-client-frontend).
+THIS IS A PROJECT ONLY PUBLICLY AVAILABLE DURING MY APPLICATION TO RIOT GAMES.
+IT IS NOT INTENDED TO BE A COMMERCIALLY USED OR OTHERWISE DISTRIBUTED PRODUCT: ITS A SIDE PROJECT TO IMPROVE MY SKILLS.
 
 ## Security
 The LCU API allows access to Bearer Tokens used for the shop and general identification and authentication. **This is 

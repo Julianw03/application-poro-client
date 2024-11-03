@@ -48,7 +48,7 @@ public class ConfigLoader {
         configModules.put(module.getClass().getSimpleName(), module);
     }
 
-    public void loadConfig() {
+    private void loadMainConfig() {
         Path configPath = Paths.get(APP_FOLDER_PATH.toString(), CONFIG_FILE_NAME);
         if (!Files.exists(configPath)) {
             try {
@@ -88,7 +88,10 @@ public class ConfigLoader {
         if (config.isEmpty()) {
             handleCorruptedOrEmptyConfig();
         }
+    }
 
+    public void loadConfig() {
+        loadMainConfig();
         for (ConfigModule module : configModules.values()) {
             module.setupDirectories();
 
@@ -106,15 +109,6 @@ public class ConfigLoader {
 
     private void setupDefaultConfig() {
         config.addProperty(KEY_SCHEMA_VERSION, CURRENT_SCHEMA_VERSION);
-        for (ConfigModule module : configModules.values()) {
-            module.setupDirectories();
-
-            module.loadStandardConfiguration();
-            JsonElement moduleConfig = module.getConfiguration();
-            if (moduleConfig != null) {
-                config.add(module.getClass().getSimpleName(), moduleConfig);
-            }
-        }
     }
 
     public void saveConfig() {

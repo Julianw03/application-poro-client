@@ -24,12 +24,17 @@ public class BackgroundModule implements ConfigModule {
     public static final String REST_PATH = "background";
     public static final String DIRECTORY = "background";
 
-    public static final String PROPERTY_BACKGROUND_TYPE = "backgroundType";
-    public static final String PROPERTY_BACKGROUND = "background";
+    public static final String PROPERTY_BACKGROUND_TYPE         = "backgroundType";
+    public static final String PROPERTY_BACKGROUND              = "background";
     public static final String PROPERTY_BACKGROUND_CONTENT_TYPE = "backgroundContentType";
-    private CLIENT_BACKGROUND_TYPE backgroundType = CLIENT_BACKGROUND_TYPE.NONE;
-    private String background = "";
-    private String backgroundContentType = "";
+
+    private static final CLIENT_BACKGROUND_TYPE DEFAULT_BACKGROUND_TYPE         = CLIENT_BACKGROUND_TYPE.LCU_VIDEO;
+    private static final String                 DEFAULT_BACKGROUND              = "/lol-game-data/assets/ASSETS/Characters/Ahri/Skins/Skin86/AnimatedSplash/Ahri_Skin86_uncentered.SKINS_Ahri_HoL.webm";
+    private static final String                 DEFAULT_BACKGROUND_CONTENT_TYPE = "video/webm";
+
+    private CLIENT_BACKGROUND_TYPE backgroundType        = CLIENT_BACKGROUND_TYPE.NONE;
+    private String                 background            = "";
+    private String                 backgroundContentType = "";
 
     @Override
     public boolean loadConfiguration() {
@@ -107,6 +112,9 @@ public class BackgroundModule implements ConfigModule {
 
     @Override
     public boolean loadStandardConfiguration() {
+        backgroundType = DEFAULT_BACKGROUND_TYPE;
+        background = DEFAULT_BACKGROUND;
+        backgroundContentType = DEFAULT_BACKGROUND_CONTENT_TYPE;
         return true;
     }
 

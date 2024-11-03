@@ -50,7 +50,7 @@ public class FriendOnlineNotifier extends Task {
                     log("Update for " + friend.get("gameName").getAsString() + " " + friend.get("gameTag").getAsString() + ": " + oldAvailability + " -> " + newAvailability, Starter.LOG_LEVEL.INFO);
                     String friendId = friend.get("id").getAsString();
                     friendMap.put(friendId, friend);
-                    if ("offline".equals(oldAvailability) || "mobile".equals(oldAvailability) || "away".equals(oldAvailability)) {
+                    if ("offline".equals(oldAvailability) || "mobile".equals(oldAvailability)) {
                         showNotification("Friend Online", friend.get("gameName").getAsString() + "#" + friend.get("gameTag").getAsString() + " is now online");
                     }
                 });

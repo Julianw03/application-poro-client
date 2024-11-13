@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 public class Starter {
 
     //FIXME: Change this to false before release
-    public static final boolean isDev = true;
+    public static final boolean isDev = false;
 
     public static final int VERSION_MAJOR = 0;
     public static final int VERSION_MINOR = 1;

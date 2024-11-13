@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class AccountLoadoutManager extends StateDataManager {
 
-    private static final Pattern uriMatcher = Pattern.compile("/lol-loadouts/v4/loadouts/scope/account");
+    private static final Pattern uriMatcher = Pattern.compile("/lol-loadouts/v4/loadouts/scope/account$");
 
     public AccountLoadoutManager(Starter starter) {
         super(starter);

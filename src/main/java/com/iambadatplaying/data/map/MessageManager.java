@@ -89,6 +89,7 @@ public class MessageManager extends MapDataManager<String> {
                 break;
             case 2:
                 String convoId = result.group(1);
+                if ("active".equals(convoId)) return;
                 log("Updating conversation " + convoId + " via conversation data", Starter.LOG_LEVEL.DEBUG);
                 updateConversationData(convoId, data.getAsJsonObject());
                 break;
@@ -99,6 +100,7 @@ public class MessageManager extends MapDataManager<String> {
                 Optional<String> conversationId = extractConversationId(result.group(1));
                 if (!conversationId.isPresent()) return;
                 String conversationIdStr = conversationId.get();
+                if ("active".equals(conversationIdStr)) return;
                 if ("".equals(result.group(3))) {//Ends with /messages
                     log("Conversation " + conversationIdStr + " updated via message array", Starter.LOG_LEVEL.DEBUG);
                     handleMessageArray(conversationIdStr, data.getAsJsonArray());

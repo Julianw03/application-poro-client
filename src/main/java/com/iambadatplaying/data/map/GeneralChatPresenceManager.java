@@ -61,9 +61,9 @@ public class GeneralChatPresenceManager extends MapDataManager<String> {
         for (JsonElement participant: participants) {
             if (!participant.isJsonObject()) continue;
             JsonObject jsonObject = participant.getAsJsonObject();
-            if (!jsonObject.has("id")) return;
+            if (!jsonObject.has("puuid")) return;
 
-            String puuid = jsonObject.get("id").getAsString();
+            String puuid = jsonObject.get("puuid").getAsString();
             log("Adding info for: " + puuid);
             map.put(puuid, jsonObject);
         }
@@ -82,15 +82,7 @@ public class GeneralChatPresenceManager extends MapDataManager<String> {
                 if (uriMatcher.groupCount() != EXPECTED_GROUP_COUNT) return;
                 if (!data.isJsonObject()) return;
                 final String conversationId = uriMatcher.group(1);
-                String memberPuuid = uriMatcher.group(4);
-                final String memberSeperator = uriMatcher.group(6);
-                if (!"@".equals(memberSeperator)) {
-                    try {
-                        memberPuuid = URLDecoder.decode(memberPuuid, StandardCharsets.UTF_8.toString());
-                    } catch (Exception e) {
-                        return;
-                    }
-                }
+                String memberPuuid = uriMatcher.group(5);
                 JsonObject updatedData = data.getAsJsonObject();
                 JsonObject currentEntry = map.get(memberPuuid);
                 if (Util.equalJsonElements(currentEntry, updatedData)) return;

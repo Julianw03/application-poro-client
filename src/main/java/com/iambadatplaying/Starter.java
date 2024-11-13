@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 public class Starter {
 
     //FIXME: Change this to false before release
-    public static final boolean isDev = false;
+    public static final boolean isDev = true;
 
     public static final int VERSION_MAJOR = 0;
     public static final int VERSION_MINOR = 1;
@@ -163,6 +163,11 @@ public class Starter {
             final JsonElement data = dataPackage.get("data");
             final String uri = dataPackage.get("uri").getAsString();
             final String type = dataPackage.get("eventType").getAsString();
+            if (message.length() >= 100_000) {
+                log(type + " " + uri + ": - Too long to print - ", Starter.LOG_LEVEL.LCU_MESSAGING);
+            } else {
+                log(type + " " + uri + ": " + message, Starter.LOG_LEVEL.LCU_MESSAGING);
+            }
             new Thread(() -> getDataManager().update(type, uri, data)).start();
             new Thread(() -> getTaskManager().updateAllTasks(type, uri, data)).start();
         }

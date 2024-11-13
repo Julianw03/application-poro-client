@@ -25,6 +25,7 @@ public class DataManager {
         STATE_MATCHMAKING_SEARCH,
         STATE_STATS_EOG,
         STATE_CURRENT_SUMMONER,
+        STATE_CURRENT_LOADOUT,
 
         // MAP UPDATE TYPES
         MAP_FRIENDS,
@@ -51,6 +52,9 @@ public class DataManager {
         ARRAY_INVITATIONS,
         ARRAY_OWNED_CHAMPIONS,
         ARRAY_OWNED_SKINS,
+        ARRAY_OWNED_TFT_COMPANIONS,
+        ARRAY_OWNED_TFT_DAMAGE_SKINS,
+        ARRAY_OWNED_TFT_MAP_SKINS,
 
         // OTHER
         INTERNAL_STATE,
@@ -99,6 +103,9 @@ public class DataManager {
         addManager(new InvitationManager(starter));
         addManager(new ChampionInventoryManager(starter));
         addManager(new SkinInventoryManager(starter));
+        addManager(new TFTCompanionInventoryManager(starter));
+        addManager(new TFTMapSkinsInventoryManager(starter));
+        addManager(new TFTDamageSkinsInventoryManager(starter));
     }
 
     private void addMapManagers() {
@@ -124,6 +131,7 @@ public class DataManager {
         addManager(new EOGHonorManager(starter));
         addManager(new MatchmakingSearchManager(starter));
         addManager(new CurrentSummonerManager(starter));
+        addManager(new AccountLoadoutManager(starter));
     }
 
     private void addManager(ArrayDataManager manager) {
@@ -225,12 +233,6 @@ public class DataManager {
         if (!data.isJsonArray() && !data.isJsonObject()) {
             log("Not Array or Object : " + type + " " + uri + ": " + data, Starter.LOG_LEVEL.NO_PARSING);
             return;
-        }
-
-        if (data.toString().length() >= 100_000) {
-            log(type + " " + uri + ": - Too long to print - ", Starter.LOG_LEVEL.LCU_MESSAGING);
-        } else {
-            log(type + " " + uri + ": " + data, Starter.LOG_LEVEL.LCU_MESSAGING);
         }
 
         final JsonElement finalData = data;

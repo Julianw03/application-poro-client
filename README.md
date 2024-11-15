@@ -19,6 +19,11 @@ be denied.
 This means that the only way to access the LCU API is by using the Poro-Client Server or by manually setting the Origin
 Header, but that means that an application on your computer is trying to access the Data.
 
+## Setup
+Upon installing the .jar-File you should be able to run it with your default JRE or Java 8 JDK. Please make sure the Port 35199 is free on your device during execution otherwise you might get an Server bind error.
+You should also run the Poro-Client with appropriate permissions. Should you get an insufficient permissions error try to run the .jar file via either cmd or powershell as administrator.
+Upon starting you should be able to reach the Poro-Client under ``http://127.0.0.1:35199/static/``
+
 ## How it works
 Basically the League of Legends UI that you see is a web application (Chromium Application with Ember.js) that connects
 to the League Client Update API (LCU).  

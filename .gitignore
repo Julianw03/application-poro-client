@@ -13,3 +13,5 @@ Poro-Client-Updater.iml
 /package-lock.json
 package.json
 /doc
+/.gradle/
+/build/

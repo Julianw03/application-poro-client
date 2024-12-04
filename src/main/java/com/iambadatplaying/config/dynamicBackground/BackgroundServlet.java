@@ -17,11 +17,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 @Path("/")
 public class BackgroundServlet implements ConfigServlet {

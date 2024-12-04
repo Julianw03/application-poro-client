@@ -14,14 +14,17 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Path("/")
 public class BackgroundServlet implements ConfigServlet {
-
 
     @GET
     public Response getBackground() {
@@ -50,8 +53,19 @@ public class BackgroundServlet implements ConfigServlet {
                 if (!backgroundFile.exists()) {
                     return Response.status(Response.Status.NOT_FOUND).build();
                 }
+                StreamingOutput stream = output -> {
+                    try (InputStream is = new BufferedInputStream(Files.newInputStream(backgroundModule.getBackgroundPath()))) {
+                        int length;
+                        byte[] buffer = new byte[1024];
+                        while ((length = is.read(buffer)) != -1) {
+                            output.write(buffer, 0, length);
+                        }
+                    } catch (Exception e) {
+                        //Expected errors (Remote Host closed connection) are ignored
+                    }
+                };
                 return Response
-                        .ok(backgroundFile, MediaType.valueOf(contentType))
+                        .ok(stream, contentType)
                         .cacheControl(cacheControl)
                         .build();
             case LCU_IMAGE:

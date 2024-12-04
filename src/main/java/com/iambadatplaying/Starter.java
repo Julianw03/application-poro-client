@@ -16,25 +16,63 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 public class Starter {
-
-    //FIXME: Change this to false before release
-    public static final boolean isDev = false;
+    public static boolean isDev = false;
 
     public static final int VERSION_MAJOR = 0;
     public static final int VERSION_MINOR = 1;
     public static final int VERSION_PATCH = 8;
 
-    public static final int DEBUG_FRONTEND_PORT    = 3000;
-    public static final int DEBUG_FRONTEND_PORT_V2 = 3001;
-    public static final int RESOURCE_SERVER_PORT   = 35199;
-    public static final int FRONTEND_SOCKET_PORT   = 8887;
+    public static int DEBUG_FRONTEND_PORT    = 3000;
+    public static int DEBUG_FRONTEND_PORT_V2 = 3001;
+    public static int RESOURCE_SERVER_PORT   = 35199;
 
-    private static final String   appDirName                                = "poroclient";
-    public static        Starter  instance                                  = null;
-    public static final  String[] requiredEndpoints                         = new String[]{"OnJsonApiEvent"};
-    private static       boolean  shutdownHookCalled                        = false;
+    private static String   appDirName         = "poroclient";
+    public static  Starter  instance           = null;
+    public static  String[] requiredEndpoints  = new String[]{"OnJsonApiEvent"};
+    private static boolean  shutdownHookCalled = false;
+
+    static HashMap<String, Consumer<String>>           simpleParameters  = new HashMap<>();
+    static HashMap<String, BiConsumer<String, String>> complexParameters = new HashMap<>();
+
+    static {
+        simpleParameters.put("--dev", (s) -> {
+            System.out.println("Running in developer mode");
+            isDev = true;
+        });
+
+        complexParameters.put("--app-port", (s, v) -> {
+            try {
+                int port = Integer.parseInt(v);
+                if (port < 0 || port > 65535) {
+                    throw new NumberFormatException();
+                }
+                System.out.println("Setting app port to: " + port);
+                RESOURCE_SERVER_PORT = port;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid port number: " + v);
+            }
+        });
+
+        complexParameters.put("--debug-port", (s, v) -> {
+            try {
+                int port = Integer.parseInt(v);
+                if (port < 0 || port > 65535) {
+                    throw new NumberFormatException();
+                }
+                System.out.println("Setting debug port to: " + port);
+                DEBUG_FRONTEND_PORT = port;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid port number: " + v);
+            }
+        });
+    }
 
     private Path taskDirPath = null;
     private Path basePath    = null;
@@ -60,6 +98,7 @@ public class Starter {
     }
 
     public static void main(String[] args) {
+        readPassedParameters(args);
         Starter starter = Starter.getInstance();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             Starter.shutdownHookCalled = true;
@@ -67,6 +106,27 @@ public class Starter {
         }));
         starter.connectionStatemachine = new ConnectionStatemachine(starter);
         starter.run();
+    }
+
+    private static void readPassedParameters(String[] args) {
+        for (String arg : args) {
+            if (!arg.startsWith("--")) continue;
+            String[] split = arg.split(Pattern.quote("="));
+            switch (split.length) {
+                case 1:
+                    simpleParameters.getOrDefault(split[0], (s) -> {
+                        System.out.println("Unknown parameter: " + s);
+                    }).accept(split[0]);
+                    break;
+                case 2:
+                    complexParameters.getOrDefault(split[0], (s, v) -> {
+                        System.out.println("Unknown parameter: " + s);
+                    }).accept(split[0], split[1]);
+                    break;
+                default:
+                    System.out.println("Invalid parameter: " + arg);
+            }
+        }
     }
 
     public static String getAppDirName() {

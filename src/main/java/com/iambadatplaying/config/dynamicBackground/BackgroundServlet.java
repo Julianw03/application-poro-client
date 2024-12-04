@@ -65,7 +65,7 @@ public class BackgroundServlet implements ConfigServlet {
                     }
                 };
                 return Response
-                        .ok(stream, contentType)
+                        .ok(stream, MediaType.valueOf(contentType))
                         .cacheControl(cacheControl)
                         .build();
             case LCU_IMAGE:
